@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 
 from .models import *
@@ -19,3 +20,13 @@ def index(request):
         'ie_types': ie_types
     }
     return render(request, 'accounting/index.html', context)
+
+
+def retrieve_category(request):
+    """获取类别"""
+    ie_type = request.POST.get('ie_type')
+    categories = Category.objects.filter(category_type=ie_type)
+    category_list = []
+    for c in categories:
+        category_list.append(c.name)
+    return JsonResponse({"categories": category_list})

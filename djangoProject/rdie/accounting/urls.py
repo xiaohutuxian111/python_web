@@ -10,4 +10,5 @@ from .  import  views
 
 urlpatterns = [
     path('',views.index,name='index'),
+    path('retrieve_category/',views.retrieve_category,name='retrieve_category')
 ]
