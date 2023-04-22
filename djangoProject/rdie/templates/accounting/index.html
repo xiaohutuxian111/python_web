@@ -63,27 +63,29 @@
                             {% endfor %}
                         </ul>
                     </div>
-                    <div class="col-lg-6 mb-6" id="history-records-overview" align="center">
+                    <form action="{% url 'record_income_expense' %}" method="post" class="history-record-form">
+                        {% csrf_token %}
                         <div class="form-row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
+                                <select class="custom-select" id="account-list" name="account">
+                                    {% for a in accounts %}
+                                    <option value="{{ a.id }}">{{ a.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
                                 <select class="custom-select" id="ie-type-list">
                                     {% for ie in ie_types %}
-                                    <option>{{ ie }}</option>
+                                    <option value="{{ ie.1 }}">{{ ie.0 }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <select class="custom-select" id="category-list">
-                                    {% for c in categories %}
-                                    <option value="{{ c.id }}">{{ c.name }}</option>
-                                    {% endfor %}
+                            <div class="col-md-3 mb-3">
+                                <select class="custom-select" id="category-list" name="category">
                                 </select>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <select class="custom-select" id="sub-category-list">
-                                    {% for sc in sub_categories %}
-                                    <option value="{{ sc.id }}">{{ sc.name }}</option>
-                                    {% endfor %}
+                            <div class="col-md-3 mb-3">
+                                <select class="custom-select" id="sub-category-list" name="sub_category">
                                 </select>
                             </div>
                         </div>
@@ -91,32 +93,32 @@
                             <div class="col-md-5 mb-3">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <select class="custom-select" id="currency-list">
+                                        <select class="custom-select" id="currency-list" name="currency">
                                             {% for c in currencies %}
                                             <option value="{{ c.id }}">{{ c.name }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <input type="text" aria-label="Money Amount" placeholder="金额" class="form-control">
+                                    <input type="text" name="amount" aria-label="Money Amount" placeholder="金额"
+                                           class="form-control" required="">
                                 </div>
                             </div>
                             <div class="col-md-7 mb-3">
-                                <input type="text" aria-label="Comment" placeholder="备注" class="form-control">
+                                <input type="text" name="comment" aria-label="Comment" placeholder="备注"
+                                       class="form-control">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-4 mb-3">
-                                <input id="time-occurrence" type="text" class="form-control">
+                                <input id="time-occurrence" name="time_of_occurrence" type="text" class="form-control">
                             </div>
                             <div class="col-md-8 mb-3">
                                 <button type="submit" class="btn btn-info btn-block">记录账单</button>
                             </div>
                         </div>
-                        <br>
-                        <h5>当月账单列表</h5>
-                        <hr width="90%" class="main-separator"/>
-                    </div>
+                    </form>
                 </div>
+
             </div>
             <div id="charts" class="container tab-pane fade"><br>
                 <h3>在这里看图表分析</h3>
@@ -179,8 +181,8 @@
 </script>
 <script>
     $("#time-occurrence").attr("value", getCurrentDateFormat());
-    $("#time-occurrence").datetimepicker( {
-        format:'Y-m-d H:i',
+    $("#time-occurrence").datetimepicker({
+        format: 'Y-m-d H:i',
     });
 </script>
 
