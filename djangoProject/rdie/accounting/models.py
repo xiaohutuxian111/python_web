@@ -43,7 +43,7 @@ class Category(models.Model):
     category_type = models.CharField(choices=GATEGORY_TYPES, default=GATEGORY_TYPES[0][1], max_length=100)
 
     def __str__(self):
-        self.name
+        return  self.name
 
     class Meta:
         ordering = ['id']
